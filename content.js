@@ -37,9 +37,13 @@
         inputWidth = document.createElement('input');
         inputHeight = document.createElement('input');
         inputWidth.type = 'number';
+        inputHeight.type = 'number';
         inputWidth.style.width = '60px';
         inputHeight.style.width = '60px';
-        inputHeight.type = 'number';
+        inputWidth.style.height = 'auto';
+        inputHeight.style.height = 'auto';
+        inputWidth.style.border = "1px solid black";
+        inputHeight.style.border = "1px solid black";
         screenTop.appendChild(inputWidth);
         screenTop.appendChild(inputHeight);
         document.body.appendChild(screenTop);
