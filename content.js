@@ -17,9 +17,12 @@
         {name: "1024x768 (XGA)", width: 1024, height: 768},
     ];
 
-    // Icon extension click event
+    // Chrome message listener
     chrome.runtime.onMessage.addListener(
         function (request, sender) {
+
+            if (request.query !== 'icon_click') return;
+            
             console.log("Browser Dimension Setter & Viewer: ", request.toggleClose);
 
             if (request.toggleClose) {

@@ -6,7 +6,7 @@ chrome.action.onClicked.addListener(function (tab) {
     toggleClose = !toggleClose;
 
     // Send a message to the content script
-    chrome.tabs.sendMessage(tab.id, { 'toggleClose': toggleClose });
+    chrome.tabs.sendMessage(tab.id, { query: 'icon_click', toggleClose: toggleClose });
 
     // Highlight the icon if the screen size display is active
     if (toggleClose) {
