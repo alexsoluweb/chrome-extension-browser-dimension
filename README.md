@@ -1,16 +1,16 @@
 # Browser Dimension Setter & Viewer
 
-The Browser Dimension Setter & Viewer is a Chrome extension designed to enhance your web design process by allowing you to set specific dimensions for the browser window and view its current width and height. This tool is invaluable for designers and developers creating responsive layouts, as it accounts for the actual browser UI, unlike traditional responsive design modes in development tools.
+The Browser Dimension Setter & Viewer is a simple Chrome extension designed to enhance your web design process by allowing you to set specific dimensions for the browser window and view its current width and height. This tool is invaluable for designers and developers creating responsive layouts, as it accounts for the actual browser UI, unlike traditional responsive design modes in development tools.
 
 ## Features
 
-- **Set Browser Dimensions:** Easily specify the width and height for your browser window to simulate different screen sizes.
+- **Set Browser Dimensions:** Easily specify the width and height for your browser window to set different browser sizes.
 - **View Actual Dimensions:** View the current width and height of your browser window, taking into account the browser's user interface.
 - **Enhance Responsive Design:** Perfect for testing and designing websites that require precise layout adjustments based on the viewport size.
 
 ## Installation
 
-1. Download the extension file from the provided link.
+1. Download or clone the files in this repo.
 2. Open the Chrome Extensions page by navigating to `chrome://extensions/` in your Google Chrome browser.
 3. Enable Developer Mode by toggling the switch in the top right corner.
 4. Click on "Load unpacked" and select the folder where you downloaded the extension.
@@ -20,8 +20,8 @@ The Browser Dimension Setter & Viewer is a Chrome extension designed to enhance 
 
 After installation, you'll find the Browser Dimension Setter & Viewer icon in your Chrome toolbar.
 
-- **To Set Dimensions:** Click on the extension icon and enter the desired width and height in the provided fields. Press "Set Dimensions" to adjust the browser window size.
-- **To View Dimensions:** The current dimensions of the browser window are displayed within the extension popup. These update in real-time as you adjust the window size.
+- **To Set Dimensions:** Click on the extension icon and enter the desired width and height in the provided fields and press 'enter' to adjust the browser window size.
+- **To View Dimensions:** The current dimensions of the browser window are displayed at the very bottom right. These update in real-time as you adjust the window size.
 
 ## Contributing
 
