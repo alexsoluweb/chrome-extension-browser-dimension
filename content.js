@@ -2,8 +2,20 @@
 
     let screenTop = null;
     let screenBottom = null;
-    let inputWidth = null;
-    let inputHeight = null;
+    let resolutionSelect = null;
+
+    // Define popular screen resolutions
+    const screenResolutions = [
+        {name: "Select resolution", width: null, height: null},
+        {name: "1920x1080 (Full HD)", width: 1920, height: 1080},
+        {name: "1600x900 (HD+)", width: 1600, height: 900},
+        {name: "1536x864 (WXGA++)", width: 1536, height: 864},
+        {name: "1440x900 (WXGA+)", width: 1440, height: 900},
+        {name: "1366x768 (WXGA)", width: 1366, height: 768},
+        {name: "1280x1024 (SXGA)", width: 1280, height: 1024},
+        {name: "1280x720 (HD)", width: 1280, height: 720},
+        {name: "1024x768 (XGA)", width: 1024, height: 768},
+    ];
 
     // Icon extension click event
     chrome.runtime.onMessage.addListener(
@@ -22,41 +34,22 @@
     // Initialize top screen
     function initScreenTop() {
         screenTop = document.createElement('div');
-        screenTop.style.position = 'fixed';
-        screenTop.style.top = '0';
-        screenTop.style.right = '0';
-        screenTop.style.backgroundColor = 'rgba(0,0,0,0.7)';
-        screenTop.style.color = 'white';
-        screenTop.style.padding = '5px';
-        screenTop.style.zIndex = '999999999';
-        screenTop.style.display = 'flex';
-        screenTop.style.alignItems = 'center';
-        screenTop.style.fontFamily = 'Arial';
-        screenTop.style.fontSize = '12px';
-        // Append 2 number text fields to the screenTop
-        inputWidth = document.createElement('input');
-        inputHeight = document.createElement('input');
-        inputWidth.type = 'number';
-        inputHeight.type = 'number';
-        inputWidth.style.width = '60px';
-        inputHeight.style.width = '60px';
-        inputWidth.style.height = 'auto';
-        inputHeight.style.height = 'auto';
-        inputWidth.style.border = "1px solid black";
-        inputHeight.style.border = "1px solid black";
-        screenTop.appendChild(inputWidth);
-        screenTop.appendChild(inputHeight);
+        setCommonStyle(screenTop, 'top');
+
+        // Append select box for resolutions to the screenTop
+        resolutionSelect = document.createElement('select');
+        screenResolutions.forEach(res => {
+            let option = new Option(res.name, `${res.width}x${res.height}`);
+            resolutionSelect.options.add(option);
+        });
+        screenTop.appendChild(resolutionSelect);
         document.body.appendChild(screenTop);
 
-        // On enter press key
-        inputWidth.addEventListener('keyup', function (event) {
-            if (event.key === "Enter") {
-                updateWindowSize();
-            }
-        });
-        inputHeight.addEventListener('keyup', function (event) {
-            if (event.key === "Enter") {
-                updateWindowSize();
+        // On select change event
+        resolutionSelect.addEventListener('change', function () {
+            let [width, height] = this.value.split('x');
+            if (width && height) {
+                updateWindowSize(width, height);
             }
         });
     }
@@ -64,15 +57,7 @@
     // Initialize bottom screen
     function initScreenBottom() {
         screenBottom = document.createElement('div');
-        screenBottom.style.position = 'fixed';
-        screenBottom.style.bottom = '0';
-        screenBottom.style.right = '0';
-        screenBottom.style.backgroundColor = 'rgba(0,0,0,0.7)';
-        screenBottom.style.color = 'white';
-        screenBottom.style.padding = '5px';
-        screenBottom.style.zIndex = '999999999';
-        screenBottom.style.fontFamily = 'Arial';
-        screenBottom.style.fontSize = '12px';
+        setCommonStyle(screenBottom, 'bottom');
         document.body.appendChild(screenBottom);
 
         // Update the screen size
@@ -82,19 +67,29 @@
         window.addEventListener('resize', updateSize);
     }
 
+    // Set common style for screenTop and screenBottom
+    function setCommonStyle(element, position) {
+        element.style.position = 'fixed';
+        element.style[position] = '0';
+        element.style.right = '0';
+        element.style.backgroundColor = 'rgba(0,0,0,0.7)';
+        element.style.color = 'white';
+        element.style.padding = '5px';
+        element.style.zIndex = '999999999';
+        element.style.display = 'flex';
+        element.style.alignItems = 'center';
+        element.style.fontFamily = 'Arial';
+        element.style.fontSize = '12px';
+    }
+
     // Update the window size
-    function updateWindowSize() {
-        let width = inputWidth.value;
-        let height = inputHeight.value;
-        if (width === "" || height === "") {
-            alert("Please enter missing value(s)!");
-            return;
-        }
+    function updateWindowSize(width, height) {
         chrome.runtime.sendMessage({ query: "updateWindowSize", width: width, height: height });
     }
 
     // Update the screen size display
     function updateSize() {
+        // Output the window size
         chrome.runtime.sendMessage({ query: "getWindowSize" }, function (response) {
             screenBottom.textContent = `${response.width} x ${response.height}`;
         });
@@ -103,11 +98,10 @@
     // Destroy everything
     function destroyAll() {
         window.removeEventListener('resize', updateSize);
-        screenTop.remove();
-        screenBottom.remove();
+        if (screenTop) screenTop.remove();
+        if (screenBottom) screenBottom.remove();
         screenTop = null;
         screenBottom = null;
-        inputWidth = null;
-        inputHeight = null;
+        resolutionSelect = null;
     }
 })();

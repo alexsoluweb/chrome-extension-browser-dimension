@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "Browser Dimension Setter & Viewer",
-    "version": "1.0",
+    "version": "1.0.1",
     "description": "Display the screen size in real-time as you resize the browser window and set the browser window to a specific size.",
     "permissions": ["activeTab", "scripting", "windows"],
     "action": {
