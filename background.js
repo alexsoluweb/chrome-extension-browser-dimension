@@ -31,11 +31,23 @@ chrome.action.onClicked.addListener(function (tab) {
 
 });
 
+// Listen for messages from the content script
 chrome.runtime.onMessage.addListener( function (request, sender, sendResponse) {
+    
+    // Get the window size
     if (request.query === "getWindowSize") {
         chrome.windows.getCurrent({}, function (window) {
             sendResponse({ width: window.width, height: window.height });
         });
         return true; // Indicates response is async
+    }
+
+    // Update the window size
+    if (request.query === "updateWindowSize") {
+        chrome.windows.getCurrent({}, function (window) {
+            // Set the window into resize mode
+            chrome.windows.update(window.id, { state: "normal" });
+            chrome.windows.update(window.id, { width: parseInt(request.width), height: parseInt(request.height) });
+        });
     }
 });
